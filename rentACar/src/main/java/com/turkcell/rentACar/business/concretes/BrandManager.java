@@ -40,7 +40,7 @@ public class BrandManager implements BrandService{
 	
 	boolean isExistsBrandName(String name) throws BusinessException {
 		if(this.brandDao.existsByBrandName(name)) {
-			throw new BusinessException("this value already exists, cannot be re-entered");
+			throw new BusinessException("This brand already exists, cannot be re-added");
 		}
 		return true;
 	}
