@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.ColorService;
+import com.turkcell.rentACar.business.dtos.ColorDto;
 import com.turkcell.rentACar.business.dtos.ColorListDto;
 import com.turkcell.rentACar.business.request.CreateColorRequest;
-import com.turkcell.rentACar.entities.concretes.Color;
 
 @RestController
 @RequestMapping("/api/color")
@@ -33,5 +34,10 @@ public class ColorsController {
 	@PostMapping("/add")
 	public void add(@RequestBody CreateColorRequest createColorRequest) {
 		this.colorService.add(createColorRequest);
+	}
+	
+	@PostMapping("/findByColorId")
+	public ColorDto findByColorId(@RequestParam int id) {
+		return this.colorService.findByColorId(id);
 	}
 }
