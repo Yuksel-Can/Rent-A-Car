@@ -2,10 +2,13 @@ package com.turkcell.rentACar.business.abstracts;
 
 import java.util.List;
 
-import com.turkcell.rentACar.entities.concretes.Brand;
+import com.turkcell.rentACar.business.dtos.GetBrandDto;
+import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
+import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
 
 public interface BrandService {
 
-	List<Brand> getAll();
-	void add(Brand brand);
+	List<ListBrandDto> getAll();
+	void add(CreateBrandRequest createBrandRequest);
+	GetBrandDto findByBrandId(int id);
 }

@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.ColorService;
-import com.turkcell.rentACar.entities.concretes.Color;
+import com.turkcell.rentACar.business.dtos.GetColorDto;
+import com.turkcell.rentACar.business.dtos.list.ListColorDto;
+import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 
 @RestController
-@RequestMapping("/api/color")
+@RequestMapping("/api/colors")
 public class ColorsController {
 
 	private ColorService colorService;
@@ -24,12 +27,17 @@ public class ColorsController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<Color> getAll(){
+	public List<ListColorDto> getAll(){
 		return this.colorService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody Color color) {
-		this.colorService.add(color);
+	public void add(@RequestBody CreateColorRequest createColorRequest) {
+		this.colorService.add(createColorRequest);
+	}
+	
+	@PostMapping("/findByColorId")
+	public GetColorDto findByColorId(@RequestParam int id) {
+		return this.colorService.findByColorId(id);
 	}
 }

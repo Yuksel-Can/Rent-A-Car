@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.BrandService;
-import com.turkcell.rentACar.entities.concretes.Brand;
+import com.turkcell.rentACar.business.dtos.GetBrandDto;
+import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
+import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
 
 @RestController
-@RequestMapping("/api/brand")
+@RequestMapping("/api/brands")
 public class BrandsController {
 
 	private BrandService brandService;
@@ -24,13 +27,17 @@ public class BrandsController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<Brand> getAll(){
+	public List<ListBrandDto> getAll(){
 		return this.brandService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody Brand brand) {
-		this.brandService.add(brand);
+	public void add(@RequestBody CreateBrandRequest createBrandRequest) {
+		this.brandService.add(createBrandRequest);
 	}
 	
+	@PostMapping("/findByBrandId")
+	public GetBrandDto findByBrandId(@RequestParam int id) {
+		return this.brandService.findByBrandId(id);
+	}
 }
