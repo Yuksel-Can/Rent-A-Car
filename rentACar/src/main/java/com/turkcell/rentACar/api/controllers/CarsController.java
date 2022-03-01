@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turkcell.rentACar.business.abstracts.CarService;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
+import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
 import com.turkcell.rentACar.entities.concretes.Car;
 
 @RestController
@@ -37,8 +38,8 @@ public class CarsController {
 	}
 	
 	@PostMapping("/update")
-	public void update(@RequestBody Car car) {
-		this.carService.update(car);
+	public void update(@RequestBody UpdateCarRequest updateCarRequest) {
+		this.carService.update(updateCarRequest);
 	}
 	
 	@DeleteMapping("/delete")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.turkcell.rentACar.business.abstracts.CarService;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
+import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
 import com.turkcell.rentACar.core.utilities.modelMapper.ModelMapperService;
 import com.turkcell.rentACar.dataAccess.abstracts.CarDao;
 import com.turkcell.rentACar.entities.concretes.Car;
@@ -41,8 +42,9 @@ public class CarManager implements CarService{
 	}
 
 	@Override
-	public void update(Car car) {
+	public void update(UpdateCarRequest updateCarRequest) {
 
+		Car car  = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		this.carDao.save(car);
 	}
 

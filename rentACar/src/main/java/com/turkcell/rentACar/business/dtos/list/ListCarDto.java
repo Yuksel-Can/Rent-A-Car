@@ -13,4 +13,6 @@ public class ListCarDto {
 	private double dailyPrice;
 	private short modelYear;
 	private String description;
+	private String brandName;
+	private String colorName;
 }

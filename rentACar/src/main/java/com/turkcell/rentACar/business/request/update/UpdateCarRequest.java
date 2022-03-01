@@ -1,4 +1,4 @@
-package com.turkcell.rentACar.business.request.create;
+package com.turkcell.rentACar.business.request.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarRequest {
-
+public class UpdateCarRequest {
+	
+	private int carId;
 	private double dailyPrice;
 	private short modelYear;
 	private String description;

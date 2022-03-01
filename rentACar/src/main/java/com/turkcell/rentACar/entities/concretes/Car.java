@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -33,8 +35,13 @@ public class Car {
 	private String description;
 	
 	
-	//private Brand brand;
-	//private Color color;
+	@ManyToOne
+	@JoinColumn(name="brand_id")
+	private Brand brand;
+	
+	@ManyToOne
+	@JoinColumn(name="color_id")
+	private Color color;
 	
 	
 }
