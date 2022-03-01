@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.ColorService;
-import com.turkcell.rentACar.business.dtos.GetColorDto;
+import com.turkcell.rentACar.business.dtos.get.GetColorDto;
 import com.turkcell.rentACar.business.dtos.list.ListColorDto;
 import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 

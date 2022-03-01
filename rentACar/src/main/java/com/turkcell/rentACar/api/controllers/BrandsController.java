@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.BrandService;
-import com.turkcell.rentACar.business.dtos.GetBrandDto;
+import com.turkcell.rentACar.business.dtos.get.GetBrandDto;
 import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
 import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
 

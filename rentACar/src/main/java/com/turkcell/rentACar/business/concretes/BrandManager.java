@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turkcell.rentACar.business.dtos.GetBrandDto;
+import com.turkcell.rentACar.business.dtos.get.GetBrandDto;
 import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
 import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
 import com.turkcell.rentACar.business.abstracts.BrandService;

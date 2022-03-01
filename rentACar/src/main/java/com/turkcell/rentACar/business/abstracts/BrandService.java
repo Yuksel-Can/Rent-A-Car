@@ -2,7 +2,7 @@ package com.turkcell.rentACar.business.abstracts;
 
 import java.util.List;
 
-import com.turkcell.rentACar.business.dtos.GetBrandDto;
+import com.turkcell.rentACar.business.dtos.get.GetBrandDto;
 import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
 import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.CarService;
+import com.turkcell.rentACar.business.dtos.list.ListCarDto;
+import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.entities.concretes.Car;
 
 @RestController
@@ -25,13 +27,13 @@ public class CarsController {
 	
 	
 	@GetMapping("/getAll")
-	public List<Car> getAll(){
+	public List<ListCarDto> getAll(){
 		return this.carService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody Car car) {
-		this.carService.add(car);
+	public void add(@RequestBody CreateCarRequest createCarRequest) {
+		this.carService.add(createCarRequest);
 	}
 	
 	@PostMapping("/update")

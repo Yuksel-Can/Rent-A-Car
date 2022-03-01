@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turkcell.rentACar.business.abstracts.ColorService;
-import com.turkcell.rentACar.business.dtos.GetColorDto;
+import com.turkcell.rentACar.business.dtos.get.GetColorDto;
 import com.turkcell.rentACar.business.dtos.list.ListColorDto;
 import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 import com.turkcell.rentACar.core.utilities.exceptions.BusinessException;
