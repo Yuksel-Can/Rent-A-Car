@@ -8,5 +8,7 @@ import com.turkcell.rentACar.entities.concretes.Car;
 @Repository
 public interface CarDao extends JpaRepository<Car, Integer>{
 
-	Car getByCarId(int id);
+	boolean existsByCarId(int carId);
+	
+	Car getByCarId(int carId);
 }

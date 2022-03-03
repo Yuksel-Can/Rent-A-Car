@@ -10,6 +10,7 @@ import com.turkcell.rentACar.business.abstracts.ColorService;
 import com.turkcell.rentACar.business.dtos.get.GetColorDto;
 import com.turkcell.rentACar.business.dtos.list.ListColorDto;
 import com.turkcell.rentACar.business.request.create.CreateColorRequest;
+import com.turkcell.rentACar.business.request.update.UpdateColorRequest;
 import com.turkcell.rentACar.core.utilities.exceptions.BusinessException;
 import com.turkcell.rentACar.core.utilities.modelMapper.ModelMapperService;
 import com.turkcell.rentACar.dataAccess.abstracts.ColorDao;
@@ -50,17 +51,44 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
+	public void update(UpdateColorRequest updateColorRequest) {
+		
+		try {
+			isExistsByColorId(updateColorRequest.getColorId());
+
+			Color color = this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
+			this.colorDao.save(color);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void delete(int id) {
+		try {
+			
+			isExistsByColorId(id);
+			this.colorDao.deleteById(id);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Override
 	public GetColorDto findByColorId(int id) {
 
 		//Color color = this.colorDao.getById(id);			//alternatif 1	//dao gerek yok
 		//Color color = this.colorDao.getByColorId(id);		//alternatif 2	//dao lazım
 
 		//Color color = this.colorDao.findById(id);			//opional dönüyor
-		Color color = this.colorDao.findByColorId(id);		//alternatif 3	//dao lazım
 		
 		try {
-			isExistsColorId(id);
-			
+			isExistsByColorId(id);
+
+			Color color = this.colorDao.findByColorId(id);		//alternatif 3	//dao lazım
 			GetColorDto colorDto = this.modelMapperService.forDto().map(color, GetColorDto.class);
 			return colorDto;
 			
@@ -79,9 +107,9 @@ public class ColorManager implements ColorService{
 		return true;
 	}
 	
-	boolean isExistsColorId(int colorId) throws BusinessException {
+	boolean isExistsByColorId(int colorId) throws BusinessException {
 		if(!this.colorDao.existsByColorId(colorId)) {
-			throw new BusinessException("This id not exists");
+			throw new BusinessException("Color id not exists");
 		}
 		return true;
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.turkcell.rentACar.business.dtos.get.GetBrandDto;
 import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
 import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
+import com.turkcell.rentACar.business.request.update.UpdateBrandRequest;
 import com.turkcell.rentACar.business.abstracts.BrandService;
 import com.turkcell.rentACar.core.utilities.exceptions.BusinessException;
 import com.turkcell.rentACar.core.utilities.modelMapper.ModelMapperService;
@@ -51,12 +52,38 @@ public class BrandManager implements BrandService{
 	}
 
 	@Override
+	public void update(UpdateBrandRequest updateBrandRequest) {
+		
+		try {
+			isExistsBrandId(updateBrandRequest.getBrandId());
+			
+			Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
+			this.brandDao.save(brand);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Override
+	public void delete(int id) {
+		
+		try {
+			isExistsBrandId(id);
+			
+			this.brandDao.deleteById(id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	@Override
 	public GetBrandDto findByBrandId(int id) {
-		Brand brand = this.brandDao.findByBrandId(id);
 		try {
 
 			isExistsBrandId(id);
-			
+
+			Brand brand = this.brandDao.findByBrandId(id);
 			GetBrandDto brandDto = this.modelMapperService.forRequest().map(brand, GetBrandDto.class);
 			return brandDto;
 			
@@ -65,6 +92,8 @@ public class BrandManager implements BrandService{
 		}
 		return null;
 	}
+
+	/*Another Methods*/
 	
 	boolean isExistsBrandName(String name) throws BusinessException {
 		if(this.brandDao.existsByBrandName(name)) {
@@ -72,9 +101,10 @@ public class BrandManager implements BrandService{
 		}
 		return true;
 	}
+	
 	boolean isExistsBrandId(int id) throws BusinessException {
 		if(!this.brandDao.existsByBrandId(id)) {
-			throw new BusinessException("This id not exists");
+			throw new BusinessException("Brand id not exists");
 		}
 		return true;
 	}

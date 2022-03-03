@@ -2,6 +2,7 @@ package com.turkcell.rentACar.api.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.CarService;
+import com.turkcell.rentACar.business.dtos.get.GetCarDto;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
-import com.turkcell.rentACar.entities.concretes.Car;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -22,6 +23,7 @@ public class CarsController {
 
 	private CarService carService;
 	
+	@Autowired
 	public CarsController(CarService carService) {
 		this.carService = carService;
 	}
@@ -47,8 +49,8 @@ public class CarsController {
 		this.carService.delete(id);
 	}
 	
-	@PostMapping("/getById")
-	public Car getById(@RequestParam int id) {
+	@PostMapping("/getByCarId")
+	public GetCarDto getById(@RequestParam int id) {
 		return carService.getById(id);
 	}
 }
