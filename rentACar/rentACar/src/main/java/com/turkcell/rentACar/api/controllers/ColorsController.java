@@ -3,20 +3,23 @@ package com.turkcell.rentACar.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.ColorService;
-import com.turkcell.rentACar.business.dtos.ColorDto;
-import com.turkcell.rentACar.business.dtos.ColorListDto;
-import com.turkcell.rentACar.business.request.CreateColorRequest;
+import com.turkcell.rentACar.business.dtos.get.GetByIdColorDto;
+import com.turkcell.rentACar.business.dtos.list.ListColorDto;
+import com.turkcell.rentACar.business.request.create.CreateColorRequest;
+import com.turkcell.rentACar.business.request.update.UpdateColorRequest;
 
 @RestController
-@RequestMapping("/api/color")
+@RequestMapping("/api/colors")
 public class ColorsController {
 
 	private ColorService colorService;
@@ -27,7 +30,7 @@ public class ColorsController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<ColorListDto> getAll(){
+	public List<ListColorDto> getAll(){
 		return this.colorService.getAll();
 	}
 	
@@ -36,8 +39,18 @@ public class ColorsController {
 		this.colorService.add(createColorRequest);
 	}
 	
-	@PostMapping("/findByColorId")
-	public ColorDto findByColorId(@RequestParam int id) {
+	@PutMapping("/update")
+	public void update(@RequestBody UpdateColorRequest updateColorRequest) {
+		this.colorService.update(updateColorRequest);
+	}
+	
+	@DeleteMapping("/delete")
+	public void delete(@RequestParam int id) {
+		this.colorService.delete(id);
+	}
+	
+	@GetMapping("/findByColorId")
+	public GetByIdColorDto findByColorId(@RequestParam int id) {
 		return this.colorService.findByColorId(id);
 	}
 }

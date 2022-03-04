@@ -2,13 +2,19 @@ package com.turkcell.rentACar.business.abstracts;
 
 import java.util.List;
 
-import com.turkcell.rentACar.business.dtos.BrandDto;
-import com.turkcell.rentACar.business.dtos.BrandListDto;
-import com.turkcell.rentACar.business.request.CreateBrandRequest;
+import com.turkcell.rentACar.business.dtos.get.GetByIdBrandDto;
+import com.turkcell.rentACar.business.dtos.list.ListBrandDto;
+import com.turkcell.rentACar.business.request.create.CreateBrandRequest;
+import com.turkcell.rentACar.business.request.update.UpdateBrandRequest;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
 
 public interface BrandService {
 
-	List<BrandListDto> getAll();
-	void add(CreateBrandRequest createBrandRequest);
-	BrandDto findByBrandId(int id);
+	DataResult<List<ListBrandDto>> getAll();
+	Result add(CreateBrandRequest createBrandRequest);
+	Result update(UpdateBrandRequest updateBrandRequest);
+	Result delete(int brandId);
+	
+	DataResult<GetByIdBrandDto> findByBrandId(int brandId);
 }
