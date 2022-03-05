@@ -13,6 +13,12 @@ import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 import com.turkcell.rentACar.business.request.update.UpdateColorRequest;
 import com.turkcell.rentACar.core.utilities.exceptions.BusinessException;
 import com.turkcell.rentACar.core.utilities.modelMapper.ModelMapperService;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.ErrorDataResult;
+import com.turkcell.rentACar.core.utilities.results.ErrorResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
+import com.turkcell.rentACar.core.utilities.results.SuccessDataResult;
+import com.turkcell.rentACar.core.utilities.results.SuccessResult;
 import com.turkcell.rentACar.dataAccess.abstracts.ColorDao;
 import com.turkcell.rentACar.entities.concretes.Color;
 
@@ -29,59 +35,67 @@ public class ColorManager implements ColorService{
 	}
 	
 	@Override
-	public List<ListColorDto> getAll() {
+	public DataResult<List<ListColorDto>> getAll() {
 		
 		List<Color> colors = this.colorDao.findAll();
-		List<ListColorDto> colorListDtos = colors.stream().map(color -> this.modelMapperService.forDto().map(color, ListColorDto.class))
+		List<ListColorDto> ListcolorDtos = colors.stream().map(color -> this.modelMapperService.forDto().map(color, ListColorDto.class))
 				.collect(Collectors.toList());
-		return colorListDtos;
+		
+		return new SuccessDataResult<List<ListColorDto>>(ListcolorDtos, "All Colors default listed");
 	}
 
 	@Override
-	public void add(CreateColorRequest createColorRequest) {
+	public Result add(CreateColorRequest createColorRequest) {
 		
 		try {
 			isExistsColorName(createColorRequest.getColorName());
 			
 			Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
 			this.colorDao.save(color);
+			return new SuccessResult("Color successfully added");
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			return new ErrorResult("Could not add color, this color already exists");
 		}
 		
 	}
 
 	@Override
-	public void update(UpdateColorRequest updateColorRequest) {
-		
+	public Result update(UpdateColorRequest updateColorRequest) {
+
+		if(updateColorRequest.getColorId()==0) {
+			return new ErrorResult("id cannot be empty");
+		}
 		try {
 			isExistsByColorId(updateColorRequest.getColorId());
-
+			isExistsColorName(updateColorRequest.getColorName());
+			
 			Color color = this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
 			this.colorDao.save(color);
+			return new SuccessResult("Color successfully updated");
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			return new ErrorResult("Could not update color, id not exists or this color already exists");
 		}
 		
 	}
 
 	@Override
-	public void delete(int id) {
+	public Result delete(int id) {
 		
 		try {	
 			isExistsByColorId(id);
 			
 			this.colorDao.deleteById(id);
+			return new SuccessResult("Color successfully deleted");
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			return new ErrorResult("Could not update color, id not exists");
 		}
 	}
 
 	@Override
-	public GetByIdColorDto findByColorId(int id) {
+	public DataResult<GetByIdColorDto> findByColorId(int id) {
 
 		//Color color = this.colorDao.getById(id);			//alternatif 1	//dao gerek yok
 		//Color color = this.colorDao.getByColorId(id);		//alternatif 2	//dao lazım
@@ -92,13 +106,13 @@ public class ColorManager implements ColorService{
 			isExistsByColorId(id);
 
 			Color color = this.colorDao.findByColorId(id);		//alternatif 3	//dao lazım
-			GetByIdColorDto colorDto = this.modelMapperService.forDto().map(color, GetByIdColorDto.class);
-			return colorDto;
+			GetByIdColorDto getColorDto = this.modelMapperService.forDto().map(color, GetByIdColorDto.class);
+
+			return new SuccessDataResult<GetByIdColorDto>(getColorDto, "Color listed by id" );
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			return new ErrorDataResult<>("Could not listed color, id not exists");
 		}
-		return null;
 	}
 
 	/*Another Methods*/

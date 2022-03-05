@@ -17,6 +17,8 @@ import com.turkcell.rentACar.business.dtos.get.GetByIdCarDto;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -31,27 +33,27 @@ public class CarsController {
 	
 	
 	@GetMapping("/getAll")
-	public List<ListCarDto> getAll(){
+	public DataResult<List<ListCarDto>> getAll(){
 		return this.carService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody CreateCarRequest createCarRequest) {
-		this.carService.add(createCarRequest);
+	public Result add(@RequestBody CreateCarRequest createCarRequest) {
+		return this.carService.add(createCarRequest);
 	}
 	
 	@PutMapping("/update")
-	public void update(@RequestBody UpdateCarRequest updateCarRequest) {
-		this.carService.update(updateCarRequest);
+	public Result update(@RequestBody UpdateCarRequest updateCarRequest) {
+		return this.carService.update(updateCarRequest);
 	}
 	
 	@DeleteMapping("/delete")
-	public void delete(@RequestParam int id) {
-		this.carService.delete(id);
+	public Result delete(@RequestParam int id) {
+		return this.carService.delete(id);
 	}
 	
 	@GetMapping("/getByCarId")
-	public GetByIdCarDto getById(@RequestParam int id) {
+	public DataResult<GetByIdCarDto> getById(@RequestParam int id) {
 		return carService.getById(id);
 	}
 }

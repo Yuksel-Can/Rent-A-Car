@@ -6,13 +6,15 @@ import com.turkcell.rentACar.business.dtos.get.GetByIdColorDto;
 import com.turkcell.rentACar.business.dtos.list.ListColorDto;
 import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 import com.turkcell.rentACar.business.request.update.UpdateColorRequest;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
 
 public interface ColorService {
 
-	List<ListColorDto> getAll();
-	void add(CreateColorRequest createColorRequest);
-	void update(UpdateColorRequest updateColorRequest);
-	void delete(int colorId);
+	DataResult<List<ListColorDto>> getAll();
+	Result add(CreateColorRequest createColorRequest);
+	Result update(UpdateColorRequest updateColorRequest);
+	Result delete(int colorId);
 	
-	GetByIdColorDto findByColorId(int colorId);
+	DataResult<GetByIdColorDto> findByColorId(int colorId);
 }

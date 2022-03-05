@@ -6,13 +6,15 @@ import com.turkcell.rentACar.business.dtos.get.GetByIdCarDto;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
 
 public interface CarService {
 
-	List<ListCarDto> getAll();
-	void add(CreateCarRequest createCarRequest);
-	void update(UpdateCarRequest updateCarRequest);
-	void delete(int carId);
+	DataResult<List<ListCarDto>> getAll();
+	Result add(CreateCarRequest createCarRequest);
+	Result update(UpdateCarRequest updateCarRequest);
+	Result delete(int carId);
 	
-	GetByIdCarDto getById(int carId);
+	DataResult<GetByIdCarDto> getById(int carId);
 }

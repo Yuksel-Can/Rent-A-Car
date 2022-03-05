@@ -17,6 +17,8 @@ import com.turkcell.rentACar.business.dtos.get.GetByIdColorDto;
 import com.turkcell.rentACar.business.dtos.list.ListColorDto;
 import com.turkcell.rentACar.business.request.create.CreateColorRequest;
 import com.turkcell.rentACar.business.request.update.UpdateColorRequest;
+import com.turkcell.rentACar.core.utilities.results.DataResult;
+import com.turkcell.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -30,27 +32,27 @@ public class ColorsController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<ListColorDto> getAll(){
+	public DataResult<List<ListColorDto>> getAll(){
 		return this.colorService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody CreateColorRequest createColorRequest) {
-		this.colorService.add(createColorRequest);
+	public Result add(@RequestBody CreateColorRequest createColorRequest) {
+		return this.colorService.add(createColorRequest);
 	}
 	
 	@PutMapping("/update")
-	public void update(@RequestBody UpdateColorRequest updateColorRequest) {
-		this.colorService.update(updateColorRequest);
+	public Result update(@RequestBody UpdateColorRequest updateColorRequest) {
+		return this.colorService.update(updateColorRequest);
 	}
 	
 	@DeleteMapping("/delete")
-	public void delete(@RequestParam int id) {
-		this.colorService.delete(id);
+	public Result delete(@RequestParam int id) {
+		return this.colorService.delete(id);
 	}
 	
 	@GetMapping("/findByColorId")
-	public GetByIdColorDto findByColorId(@RequestParam int id) {
+	public DataResult<GetByIdColorDto> findByColorId(@RequestParam int id) {
 		return this.colorService.findByColorId(id);
 	}
 }

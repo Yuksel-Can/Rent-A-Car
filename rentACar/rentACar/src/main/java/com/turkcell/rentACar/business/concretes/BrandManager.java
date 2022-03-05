@@ -90,7 +90,6 @@ public class BrandManager implements BrandService{
 			
 		} catch (Exception e) {
 			return new ErrorResult("Could not update brand, id not exists");
-			
 		}
 		
 	}
@@ -114,6 +113,7 @@ public class BrandManager implements BrandService{
 	/*Another Methods*/
 	
 	boolean isExistsBrandName(String name) throws BusinessException {
+		
 		if(this.brandDao.existsByBrandName(name)) {
 			throw new BusinessException("This brand already exists, cannot be re-added");
 		}
