@@ -4,11 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.turkcell.rentACar.business.abstracts.CarService;
 import com.turkcell.rentACar.business.dtos.get.GetByIdCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListCarByDailyPriceDto;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListPagedCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListSortedCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
 import com.turkcell.rentACar.core.utilities.exceptions.BusinessException;
@@ -94,12 +100,47 @@ public class CarManager implements CarService{
 			Car car = this.carDao.getByCarId(id);
 			GetByIdCarDto getCarDto = this.modelMapperService.forDto().map(car, GetByIdCarDto.class);
 
-
 			return new SuccessDataResult<GetByIdCarDto>(getCarDto, "Car listed by id" );
 			
 		} catch (Exception e) {
 			return new ErrorDataResult<>("Could not listed car, id not exists");
 		}
+	}
+
+	@Override
+	public DataResult<List<ListCarByDailyPriceDto>> findByDailyPriceLessThanEqual(double dailyPrice) {
+		List<Car> cars = this.carDao.findByDailyPriceLessThanEqual(dailyPrice);
+		List<ListCarByDailyPriceDto> result = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListCarByDailyPriceDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<>(result, "Cars listed by daily price");
+	}
+
+	@Override
+	public DataResult<List<ListPagedCarDto>> listPagedCar(int pageNo, int pageSize) {
+		
+		if(pageNo <= 0 || pageSize <= 0) {
+			return new ErrorDataResult<>("please enter valid value");
+		}
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		List<Car> cars = this.carDao.findAll(pageable).getContent();
+		
+		List<ListPagedCarDto> result = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListPagedCarDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<ListPagedCarDto>>(result, "Cars paginated");
+	}
+
+	@Override
+	public DataResult<List<ListSortedCarDto>> listSortedCar(int sortType) {
+		
+		if(!(sortType==0 || sortType==1)) {
+			return new ErrorDataResult<>("Only values 0 and 1 can be selected");
+		}
+		Sort sort = selectBySortType(sortType);
+		List<Car> cars = this.carDao.findAll(sort);
+		
+		List<ListSortedCarDto> result = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListSortedCarDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<ListSortedCarDto>>(result, "All cars successfully sorted");
 	}
 
 	/*Another Methods*/
@@ -109,6 +150,16 @@ public class CarManager implements CarService{
 			throw new BusinessException("Car id not exists");
 		}
 		return true;
+	}
+	
+	private Sort selectBySortType(int sortType) {
+		if(sortType==1) {
+			return Sort.by(Sort.Direction.ASC, "dailyPrice");
+		}else if(sortType==0) {
+			return Sort.by(Sort.Direction.DESC, "dailyPrice");
+		}else {
+			return Sort.by(Sort.Direction.ASC, "dailyPrice");
+		}
 	}
 	
 	

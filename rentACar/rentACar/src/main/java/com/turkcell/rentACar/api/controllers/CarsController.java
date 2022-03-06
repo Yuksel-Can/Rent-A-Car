@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.rentACar.business.abstracts.CarService;
 import com.turkcell.rentACar.business.dtos.get.GetByIdCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListCarByDailyPriceDto;
 import com.turkcell.rentACar.business.dtos.list.ListCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListPagedCarDto;
+import com.turkcell.rentACar.business.dtos.list.ListSortedCarDto;
 import com.turkcell.rentACar.business.request.create.CreateCarRequest;
 import com.turkcell.rentACar.business.request.update.UpdateCarRequest;
 import com.turkcell.rentACar.core.utilities.results.DataResult;
@@ -56,4 +59,20 @@ public class CarsController {
 	public DataResult<GetByIdCarDto> getById(@RequestParam int id) {
 		return carService.getById(id);
 	}
+	
+	@GetMapping("/findByDailyPriceLessThanEqual")
+	public DataResult<List<ListCarByDailyPriceDto>> findByDailyPriceLessThanEqual(@RequestParam double dailyPrice){
+		return this.carService.findByDailyPriceLessThanEqual(dailyPrice);
+	}
+	
+	@GetMapping("/listPagedCar")
+	public DataResult<List<ListPagedCarDto>> listPagedCar(@RequestParam int pageNo, int pageSize){
+		return this.carService.listPagedCar(pageNo, pageSize);
+	}
+	
+	@GetMapping("/listSortedCar")
+	public DataResult<List<ListSortedCarDto>> listSortedCar(@RequestParam int sortType){
+		return this.carService.listSortedCar(sortType);
+	}
+	
 }
